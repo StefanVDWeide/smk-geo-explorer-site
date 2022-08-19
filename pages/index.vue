@@ -63,7 +63,8 @@ const getObjectsWithImages = (objectsList: artObject[], clearCurrentList: boolea
         if (fourNearestObjects.value.length === 4) {
             return;
         }
-        if (object.has_image) {
+        // Added extra check for geo_location
+        if (object.has_image && object.geo_location) {
             fourNearestObjects.value.push(object);
         }
     };
