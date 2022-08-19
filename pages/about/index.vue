@@ -31,3 +31,16 @@
         </div>
     </div>
 </template>
+
+<script lang="ts" setup>
+const title = ref('About');
+const description = ref('About the Explore Denmark through art project');
+
+useHead({
+    title: title.value,
+    meta: [{
+        name: 'description',
+        content: description
+    }]
+})
+</script>

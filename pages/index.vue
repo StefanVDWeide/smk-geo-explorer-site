@@ -42,6 +42,16 @@ import { artObject, APIBody } from "@/types/interfaces";
 const startObjectNumber = ref("");
 const fourNearestObjects = ref<artObject[]>([]);
 const currentMainObject = ref<artObject | undefined>();
+const title = ref('Denmark Art Explorer');
+const description = ref('Explore Denmark through art objects from the SMK');
+
+useHead({
+    title: title.value,
+    meta: [{
+        name: 'description',
+        content: description
+    }]
+})
 
 // Methods
 const getObjectsWithImages = (objectsList: artObject[], clearCurrentList: boolean) => {
