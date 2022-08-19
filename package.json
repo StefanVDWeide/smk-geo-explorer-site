@@ -10,5 +10,8 @@
     "@nuxt/image-edge": "^1.0.0-27657146.da85542",
     "@nuxtjs/tailwindcss": "^5.3.1",
     "nuxt": "^3.0.0-rc.8"
+  },
+  "dependencies": {
+    "vue-gtag-next": "^1.14.0"
   }
 }
