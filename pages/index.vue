@@ -89,7 +89,7 @@ const resetMainObject = async (): Promise<void> => {
 const getRandomStartObject = (): void => {
     const numberOfIDs: number = objectIDs.length;
     const randomIndex: number = Math.floor(Math.random() * (numberOfIDs - 1) + 1);
-    startObjectNumber.value = objectIDs.at(randomIndex);
+    startObjectNumber.value = objectIDs[randomIndex];
 }
 
 // Explicitly call function as oposed to using IIFE for readability
