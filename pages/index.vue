@@ -42,13 +42,13 @@ import { artObject, APIBody } from "@/types/interfaces";
 const startObjectNumber = ref("");
 const fourNearestObjects = ref<artObject[]>([]);
 const currentMainObject = ref<artObject | undefined>();
-const title = ref('Denmark Art Explorer');
-const description = ref('Explore Denmark through art objects from the SMK');
+const title = ref("Denmark Art Explorer");
+const description = ref("Explore Denmark through art objects from the SMK");
 
 useHead({
     title: title.value,
     meta: [{
-        name: 'description',
+        name: "description",
         content: description
     }]
 })
@@ -57,15 +57,17 @@ useHead({
 const getObjectsWithImages = (objectsList: artObject[], clearCurrentList: boolean) => {
     if (clearCurrentList) {
         fourNearestObjects.value = [];
-    }
+    };
+
     for (const object of objectsList) {
         if (fourNearestObjects.value.length === 4) {
-            break;
+            return;
         }
         if (object.has_image) {
             fourNearestObjects.value.push(object);
         }
-    }
+    };
+    resetMainObject();
 }
 
 const getNewMainObject = async (objectNumber: string): Promise<void> => {
@@ -97,7 +99,6 @@ const getRandomStartObject = (): void => {
 getRandomStartObject();
 
 // Fetch the data from the API
-// TODO: Better error handling
 const { data: mainObject, error: mainObjectError } = await useFetch<APIBody>(`https://api.smk.dk/api/v1/art/?object_number=${startObjectNumber.value}&lang=en`);
 const { data: nearestObjects, error: nearestObjectsError } = await useFetch<APIBody>(`https://api.smk.dk/api/v1/geo_id/?object_number=${startObjectNumber.value}&lang=en&rows=50`);
 
@@ -106,13 +107,13 @@ if (!mainObjectError.value) {
     // The initial object is sourced from a list of known objects with images thus no checkes needed
     currentMainObject.value = mainObject.value.items[0];
 } else {
-    console.log("An error occured while fetching the main object")
+    throw createError({ statusCode: 500, statusMessage: "An error occured while fetching the nearest objects" })
 }
 
 if (!nearestObjectsError.value) {
     getObjectsWithImages(nearestObjects.value.items, false);
 } else {
-    console.log("An error occured while fetching the nearest objects")
+    throw createError({ statusCode: 500, statusMessage: "An error occured while fetching the nearest objects" })
 }
 
 </script>
