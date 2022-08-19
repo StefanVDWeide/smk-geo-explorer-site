@@ -6,7 +6,7 @@
             topographical motive
             somewhere in Denmark. Start with a random object and it's
             four
-            closets neighbords. Click any of the neighbors to keep exloring. Distance to the main object is of course
+            closets neighbors. Click any of the neighbors to keep exploring. Distance to the main object is of course
             shown in 2x4 Lego
             bricks. (Stuck in a loop? Click <span @click="resetMainObject" class="underline cursor-pointer">here</span>
             to reset)

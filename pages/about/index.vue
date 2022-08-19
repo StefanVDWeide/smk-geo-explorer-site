@@ -11,7 +11,7 @@
                 </p>
             </div>
             <div class="mb-8">
-                <h2 class="text-4xl">Are you affilated with the SMK?</h2>
+                <h2 class="text-4xl">Are you affiliated with the SMK?</h2>
                 <p class="text-2xl">No.</p>
             </div>
             <div class="mb-8">
