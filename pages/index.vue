@@ -100,22 +100,23 @@ const getRandomStartObject = (): void => {
 getRandomStartObject();
 
 // Fetch the data from the API
-const { data: mainObject, error: mainObjectError } = await useFetch<APIBody>(`https://api.smk.dk/api/v1/art/?object_number=${startObjectNumber.value}&lang=en`);
-const { data: nearestObjects, error: nearestObjectsError } = await useFetch<APIBody>(`https://api.smk.dk/api/v1/geo_id/?object_number=${startObjectNumber.value}&lang=en&rows=50`);
+
+const [{ data: mainObject, error: mainObjectError }, { data: nearestObjects, error: nearestObjectsError }] = await Promise.all([
+    useFetch<APIBody>(`https://api.smk.dk/api/v1/art/?object_number=${startObjectNumber.value}&lang=en`),
+    useFetch<APIBody>(`https://api.smk.dk/api/v1/geo_id/?object_number=${startObjectNumber.value}&lang=en&rows=50`)
+])
 
 // Set the local state
-if (!mainObjectError.value) {
-    // The initial object is sourced from a list of known objects with images thus no checkes needed
-    currentMainObject.value = mainObject.value.items[0];
-} else {
-    throw createError({ statusCode: 500, statusMessage: "An error occured while fetching the nearest objects" })
+if (mainObjectError.value || nearestObjectsError.value) {
+    throw createError({ statusCode: 500, statusMessage: "An error occured while fetching the objects" })
 }
 
-if (!nearestObjectsError.value) {
+// Set a timeout to ensure the API calls have completed. Eventhough we await the call, useFetch returns null initially
+setTimeout(() => {
+    // The initial object is sourced from a list of known objects with images thus no checkes needed
+    currentMainObject.value = mainObject.value.items[0];
     getObjectsWithImages(nearestObjects.value.items, false);
-} else {
-    throw createError({ statusCode: 500, statusMessage: "An error occured while fetching the nearest objects" })
-}
+}, 1000);
 
 </script>
 
